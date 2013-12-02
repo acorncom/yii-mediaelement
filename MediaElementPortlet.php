@@ -120,6 +120,16 @@ class MediaElementPortlet extends CPortlet
 		if (!isset($this->htmlOptions['id']))
 		$this->htmlOptions['id'] = $this->getId();
 
+        // adjust our html options if needed
+        if( !isset($this->htmlOptions['type']) ) {
+            $this->htmlOptions['type'] = $this->mimeType;
+        }
+
+        // add in our other custom options
+        $this->htmlOptions['controls'] = "controls";
+        $this->htmlOptions['src'] = $this->url;
+        $this->htmlOptions['autoplay'] = $this->autoplay;
+
 		$this->resolvePackagePath();
 		$this->registerCoreScripts();
 
@@ -127,15 +137,13 @@ class MediaElementPortlet extends CPortlet
 	public function run() {
 		parent::run();
 
-			?>
-<<?php echo $this->mediaType;?>
-	 id="player2" src="<?php echo $this->url; ?>"
-	type="<?php echo $this->mimeType; ?>" controls="controls" autoplay="<?php echo $this->autoplay; ?>">
-</<?php echo $this->mediaType;?>>
-<script>
-$('audio,video').mediaelementplayer();
+        echo CHtml::tag(
+            $this->mediaType,
+            $this->htmlOptions
+        );
+        ?>
 
-</script>
+<script>$('audio,video').mediaelementplayer();</script>
 			<?php
 
 	}
