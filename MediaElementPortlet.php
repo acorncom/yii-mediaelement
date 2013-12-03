@@ -179,7 +179,7 @@ class MediaElementPortlet extends CPortlet
         );
         ?>
 
-<script>$('audio,video').mediaelementplayer();</script>
+<script>var player = new MediaElementPlayer('audio,video');</script>
 			<?php
 
 	}
